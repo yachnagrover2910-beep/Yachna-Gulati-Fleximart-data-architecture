@@ -1,0 +1,95 @@
+FlexiMart ETL Data Quality Report
+================================
+ETL Execution Date: 2024-04-15
+Processed By: etl_pipeline.py
+
+--------------------------------
+Dataset 1: customers_raw.csv
+--------------------------------
+Total records read            : 25
+Duplicate records detected    : 1
+Duplicate records removed     : 1
+Unique records after cleanup  : 24
+
+Data Quality Issues Identified:
+- Missing email addresses     : 5 records
+- Inconsistent phone formats  : 25 records
+- Inconsistent date formats   : 6 records
+- Extra spaces / case issues  : Multiple records
+
+Data Cleaning Actions Taken:
+- Duplicate customer (C001) removed
+- Records with missing emails dropped (email is mandatory)
+- Phone numbers standardized to format: +91-XXXXXXXXXX
+- Registration dates converted to YYYY-MM-DD format
+- City names standardized to proper case
+
+Missing Values Handling:
+- Missing emails handled      : 5 (records dropped)
+- Missing phone numbers       : 0
+
+Final Records Loaded into DB  : 19
+
+--------------------------------
+Dataset 2: products_raw.csv
+--------------------------------
+Total records read            : 20
+Duplicate records detected    : 0
+
+Data Quality Issues Identified:
+- Missing price values        : 3 records
+- Missing stock quantity      : 1 record
+- Inconsistent category names : All records
+- Extra spaces in names       : Few records
+
+Data Cleaning Actions Taken:
+- Missing prices filled using category-level average
+- Missing stock quantity set to default value (0)
+- Category names standardized 
+  (Electronics, Fashion, Groceries)
+- Trimmed extra spaces from product names
+
+Missing Values Handling:
+- Price values filled         : 3
+- Stock quantity filled       : 1
+
+Final Records Loaded into DB  : 20
+
+--------------------------------
+Dataset 3: sales_raw.csv
+--------------------------------
+Total records read            : 40
+Duplicate transactions found  : 1
+Duplicate transactions removed: 1
+Unique records after cleanup  : 39
+
+Data Quality Issues Identified:
+- Missing customer_id         : 3 records
+- Missing product_id          : 2 records
+- Inconsistent date formats   : 7 records
+
+Data Cleaning Actions Taken:
+- Duplicate transaction (T001) removed
+- Records with missing customer_id or product_id dropped
+- Transaction dates standardized to YYYY-MM-DD format
+- Only valid transactions retained
+
+Missing Values Handling:
+- Records dropped due to missing IDs : 5
+
+Final Records Loaded into DB  : 34
+
+--------------------------------
+ETL Summary
+--------------------------------
+Customers Loaded  : 19
+Products Loaded   : 20
+Sales Loaded      : 34
+
+Total Duplicates Removed      : 2
+Total Records Dropped         : 10
+Total Records Successfully Loaded : 73
+
+ETL Status: SUCCESS
+All data quality issues handled as per transformation rules.
+Refer to etl_pipeline.py for implementation details.
